@@ -1,10 +1,9 @@
 import React from 'react';
 import {StyleSheet, View, StatusBar, SafeAreaView} from 'react-native';
 import {Text, Header, Body, Right, Title} from 'native-base';
-
 import LikeActive from '../assets/images/loveClick.svg';
 
-const Home = () => {
+const Profile = () => {
   return (
     <SafeAreaView>
       <View>
@@ -26,7 +25,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Profile;
 
 const styles = StyleSheet.create({
   text: {

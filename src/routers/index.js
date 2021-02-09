@@ -9,15 +9,15 @@ const Tab = createBottomTabNavigator();
 //import screens
 import Home from '../screens/Home';
 import Activities from '../screens/Activities';
-import Profile from '../screens/profile';
+import Profile from '../screens/Profile';
 
-import BottomNavigation from '../components/BottomNavigation';
+import BottomNavigation from '../components/bottomNavigation';
 
 const MainApp = () => {
   return (
     <Tab.Navigator tabBar={(props) => <BottomNavigation {...props} />}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Activities" component={Activities} />
+      <Tab.Screen name="Post" component={Activities} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
@@ -29,7 +29,7 @@ class Route extends Component {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
-            name="MainApp"
+            name="InstaApp"
             component={MainApp}
             options={{headerShown: false}}
           />

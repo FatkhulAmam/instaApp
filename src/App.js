@@ -1,21 +1,17 @@
 import React from 'react';
 import Router from './routers';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {Provider} from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
-
-const Stack = createStackNavigator();
+import Store from './redux/store';
 
 const App = () => {
   React.useEffect(() => {
     SplashScreen.hide();
   });
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Router />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={Store}>
+      <Router />
+    </Provider>
   );
 };
 

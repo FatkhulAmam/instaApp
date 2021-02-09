@@ -2,12 +2,12 @@ import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
 //import assets icons
-import Home from '../../assets/images/home.svg';
-import HomeActive from '../../assets/images/homeActive.svg';
-import Activities from '../../assets/images/activities.svg';
-import ActivitiesActive from '../../assets/images/activitiesActive.svg';
-import Profile from '../../assets/images/profile.svg';
-import ProfileActive from '../../assets/images/profileActive.svg';
+import Home from '../assets/images/home.svg';
+import HomeActive from '../assets/images/homeActive.svg';
+import Add from '../assets/images/add.svg';
+import AddActive from '../assets/images/addActive.svg';
+import Profile from '../assets/images/profile.svg';
+import ProfileActive from '../assets/images/profileActive.svg';
 
 const BottomNavigation = ({state, descriptors, navigation}) => {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
@@ -52,8 +52,8 @@ const BottomNavigation = ({state, descriptors, navigation}) => {
           if (label === 'Home') {
             return isFocused ? <HomeActive /> : <Home />;
           }
-          if (label === 'Activities') {
-            return isFocused ? <ActivitiesActive /> : <Activities />;
+          if (label === 'Post') {
+            return isFocused ? <AddActive /> : <Add />;
           }
           if (label === 'Profile') {
             return isFocused ? <ProfileActive /> : <Profile />;
@@ -68,7 +68,6 @@ const BottomNavigation = ({state, descriptors, navigation}) => {
             onLongPress={onLongPress}
             style={styles.iconTab}>
             <IconTab />
-            <Text style={styles.text(isFocused)}>{label}</Text>
           </TouchableOpacity>
         );
       })}
@@ -87,7 +86,7 @@ const styles = StyleSheet.create({
     paddingVertical: 13,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    height: 55,
+    height: 50,
   },
   iconTab: {
     alignItems: 'center',
