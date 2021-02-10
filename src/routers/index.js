@@ -7,6 +7,8 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 //import screens
+import Login from '../screens/Login';
+import SignIn from '../screens/Signup';
 import Home from '../screens/Home';
 import Activities from '../screens/Activities';
 import Profile from '../screens/Profile';
@@ -28,6 +30,16 @@ class Route extends Component {
     return (
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="SignIn"
+            component={SignIn}
+            options={{headerShown: false}}
+          />
           <Stack.Screen
             name="InstaApp"
             component={MainApp}
