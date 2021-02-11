@@ -30,6 +30,11 @@ export default (state = initialState, action) => {
         data: action.payload.data,
       };
     }
+    case 'LOGOUT': {
+      return {
+        ...state,
+      };
+    }
     default: {
       return state;
     }

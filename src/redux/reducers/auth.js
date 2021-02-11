@@ -1,9 +1,9 @@
 const initialState = {
   isLogin: false,
   isError: false,
+  isRegis: false,
   isLoadingLogin: false,
   isLoadingRegister: false,
-  isLoadingChange: false,
   token: '',
   message: '',
 };
@@ -33,6 +33,30 @@ export default (state = initialState, action) => {
         isLoadingLogin: false,
         message: 'login successfully',
         token: action.payload.data.token,
+      };
+    }
+    // register reducers
+    case 'REGIS_USER_PENDING': {
+      return {
+        ...state,
+        isLoadingRegister: true,
+      };
+    }
+    case 'REGIS_USER_REJECTED': {
+      return {
+        ...state,
+        isLoadingRegister: false,
+        isError: true,
+        message: 'Cannot make account',
+      };
+    }
+    case 'REGIS_USER_FULFILLED': {
+      return {
+        ...state,
+        isRegis: true,
+        isLoadingRegister: false,
+        isError: false,
+        message: 'register successfully',
       };
     }
     case 'LOGOUT': {

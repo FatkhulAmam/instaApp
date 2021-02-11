@@ -1,9 +1,17 @@
 import React from 'react';
-import {StyleSheet, View, StatusBar, SafeAreaView} from 'react-native';
-import {Text, Header, Body, Right, Title} from 'native-base';
-import LikeActive from '../assets/images/loveClick.svg';
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
+import {Header, Body, Right, Title} from 'native-base';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {useDispatch} from 'react-redux';
 
 const Profile = () => {
+  const dispatch = useDispatch();
   return (
     <SafeAreaView>
       <View>
@@ -17,7 +25,9 @@ const Profile = () => {
             <Title style={styles.text}>InstaApp</Title>
           </Body>
           <Right>
-            <LikeActive style={styles.like} />
+            <TouchableOpacity onPress={() => dispatch({type: 'LOGOUT'})}>
+              <Icon name="cog" size={25} style={styles.cogIcon} />
+            </TouchableOpacity>
           </Right>
         </Header>
       </View>
@@ -34,7 +44,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 25,
   },
-  like: {
+  cogIcon: {
     marginRight: 10,
+    marginTop: 10,
   },
 });
