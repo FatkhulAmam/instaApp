@@ -14,6 +14,7 @@ import LikeActive from '../assets/images/loveClick.svg';
 import pict1 from '../assets/images/gb1.jpg';
 import pict2 from '../assets/images/gb3.jpg';
 import profile from '../assets/images/avatar.png';
+import Comment from '../assets/images/bubbleChat.svg';
 
 const Home = () => {
   return (
@@ -29,7 +30,7 @@ const Home = () => {
             <Title style={styles.text}>InstaApp</Title>
           </Body>
           <Right>
-            <LikeActive style={styles.like} />
+            <Like style={styles.like} />
           </Right>
         </Header>
       </View>
@@ -41,6 +42,7 @@ const Home = () => {
         <Image source={pict1} style={styles.image} />
         <View style={styles.icon}>
           <LikeActive />
+          <Comment style={styles.comment} />
         </View>
         <View style={styles.desc}>
           <Text>
@@ -117,5 +119,8 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 10,
     marginTop: 5,
+  },
+  comment: {
+    marginLeft: 15,
   },
 });

@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {Text, Header, Form, Item, Label, Input, Button} from 'native-base';
 import * as yup from 'yup';
@@ -24,88 +25,81 @@ const schemaValidation = yup.object().shape({
     .required('Password dibutuhkan'),
 });
 
-const Login = () => {
+const Login = ({navigation}) => {
   return (
     <SafeAreaView>
-      <View>
-        <Header style={styles.header} transparent>
-          <StatusBar
-            barStyle="dark-content"
-            translucent
-            backgroundColor="rgba(0,0,0,0)"
-          />
-          <Text>bahasa indonesia</Text>
-        </Header>
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>InstaApp</Text>
-        <TouchableOpacity style={styles.facebook}>
-          <Image source={logoFb} style={styles.facebook} />
-          <Text style={styles.fbnext}>Lanjutkan dengan Facebook</Text>
-        </TouchableOpacity>
-        <Text note style={styles.atau}>
-          ATAU
-        </Text>
-        <Formik
-          initialValues={{
-            email: '',
-            password: '',
-          }}
-          validationSchema={schemaValidation}
-          onSubmit={(values) => this.dologin(values)}>
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            touched,
-            errors,
-          }) => (
-            <View style={styles.register}>
-              <Form style={styles.formWrap}>
-                <Item floatingLabel>
-                  <Label>Email</Label>
-                  <Input
-                    onChangeText={handleChange('email')}
-                    onBlur={handleBlur('email')}
-                    value={values.email}
-                    keyboardType="email-address"
-                  />
-                </Item>
-                {touched.email && errors.email && (
-                  <Text style={styles.textError}>{errors.email}</Text>
-                )}
-                <Item floatingLabel>
-                  <Label>Password</Label>
-                  <Input
-                    secureTextEntry
-                    onChangeText={handleChange('password')}
-                    onBlur={handleBlur('password')}
-                    value={values.password}
-                  />
-                </Item>
-                {touched.password && errors.password && (
-                  <Text style={styles.textError}>{errors.password}</Text>
-                )}
-              </Form>
-            </View>
-          )}
-        </Formik>
-        <TouchableOpacity
-          style={styles.touchForgot}
-          onPress={() => this.props.navigation.navigate('ForgotPassword')}>
-          <Text style={styles.forgot}>Lupa Kata Sandi??</Text>
-        </TouchableOpacity>
-        <Button style={styles.btnLogin} block>
-          <Text style={styles.btntext}>SIGN IN</Text>
-        </Button>
-        <TouchableOpacity>
-          <Text>
-            {' '}
-            Sudah Punya Akun? <Text style={styles.daftarTxt}>Masuk</Text>
+      <ScrollView>
+        <View>
+          <Header style={styles.header} transparent>
+            <StatusBar barStyle="dark-content" backgroundColor="#f5f5f5" />
+            <Text>bahasa indonesia</Text>
+          </Header>
+        </View>
+        <View style={styles.container}>
+          <Text style={styles.title}>InstaApp</Text>
+          <TouchableOpacity style={styles.facebooWrap}>
+            <Image source={logoFb} style={styles.facebook} />
+            <Text style={styles.fbnext}>Daftar dengan Facebook</Text>
+          </TouchableOpacity>
+          <Text note style={styles.atau}>
+            ATAU
           </Text>
-        </TouchableOpacity>
-      </View>
+          <Formik
+            initialValues={{
+              email: '',
+              password: '',
+            }}
+            validationSchema={schemaValidation}
+            onSubmit={(values) => this.dologin(values)}>
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              touched,
+              errors,
+            }) => (
+              <View>
+                <Form style={styles.formWrap}>
+                  <Item floatingLabel>
+                    <Label>Email</Label>
+                    <Input
+                      onChangeText={handleChange('email')}
+                      onBlur={handleBlur('email')}
+                      value={values.email}
+                      keyboardType="email-address"
+                    />
+                  </Item>
+                  {touched.email && errors.email && (
+                    <Text style={styles.textError}>{errors.email}</Text>
+                  )}
+                  <Item floatingLabel>
+                    <Label>Password</Label>
+                    <Input
+                      secureTextEntry
+                      onChangeText={handleChange('password')}
+                      onBlur={handleBlur('password')}
+                      value={values.password}
+                    />
+                  </Item>
+                  {touched.password && errors.password && (
+                    <Text style={styles.textError}>{errors.password}</Text>
+                  )}
+                </Form>
+              </View>
+            )}
+          </Formik>
+          <Button style={styles.btnLogin} block>
+            <Text style={styles.btntext}>Sign In</Text>
+          </Button>
+          <View style={styles.login}>
+            <Text>Sudah Punya Akun? </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.daftarTxt}>Masuk</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -143,6 +137,7 @@ const styles = StyleSheet.create({
   formWrap: {
     width: 300,
     height: 100,
+    marginBottom: 50,
   },
   textError: {
     fontSize: 10,
@@ -151,11 +146,10 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   forgot: {
-    marginTop: 140,
     marginLeft: 200,
   },
   btnLogin: {
-    marginTop: 175,
+    marginTop: 25,
     backgroundColor: '#ad000c',
     marginLeft: 40,
     marginRight: 30,
@@ -169,5 +163,8 @@ const styles = StyleSheet.create({
   facebook: {
     width: 20,
     height: 20,
+  },
+  login: {
+    flexDirection: 'row',
   },
 });
