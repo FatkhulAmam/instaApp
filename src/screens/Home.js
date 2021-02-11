@@ -1,22 +1,33 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   View,
   StatusBar,
   SafeAreaView,
-  Image,
-  ScrollView,
+  FlatList,
 } from 'react-native';
-import {Text, Header, Body, Right, Title} from 'native-base';
+import {Header, Body, Right, Title} from 'native-base';
+import {useSelector, useDispatch} from 'react-redux';
+import moment from 'moment';
+
+// import action
+import {getPost} from '../redux/actions/posts';
 
 import Like from '../assets/images/love.svg';
-import LikeActive from '../assets/images/loveClick.svg';
-import pict1 from '../assets/images/gb1.jpg';
-import pict2 from '../assets/images/gb3.jpg';
-import profile from '../assets/images/avatar.png';
-import Comment from '../assets/images/bubbleChat.svg';
 
-const Home = () => {
+import CardPost from '../components/CardPost';
+
+const Home = ({navigation}) => {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+  useEffect(() => {
+    dispatch(getPost(token));
+  }, [dispatch, token]);
+  const dataPost = useSelector((state) => state.post.data.result);
+  useEffect(() => {
+    console.log(dataPost);
+  }, [dataPost]);
+
   return (
     <SafeAreaView>
       <View>
@@ -34,46 +45,22 @@ const Home = () => {
           </Right>
         </Header>
       </View>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.avatarContainer}>
-          <Image source={profile} style={styles.avatar} />
-          <Text>Jhonkey_michael</Text>
-        </View>
-        <Image source={pict1} style={styles.image} />
-        <View style={styles.icon}>
-          <LikeActive />
-          <Comment style={styles.comment} />
-        </View>
-        <View style={styles.desc}>
-          <Text>
-            mudahnya menanam lidah mertua dengan media tanam yang minimum namun
-            dapat menghasilkan tanaman dengan hasil yang bermanfaat bagi udara
-            di rumah kita
-          </Text>
-          <Text note>Lihat semua komentar</Text>
-          <Text note style={styles.time}>
-            38 minutes ago
-          </Text>
-        </View>
-        <View style={styles.avatarContainer}>
-          <Image source={profile} style={styles.avatar} />
-          <Text>Jhonkey_michael</Text>
-        </View>
-        <Image source={pict2} style={styles.image} />
-        <View style={styles.icon}>
-          <Like />
-        </View>
-        <View style={styles.desc}>
-          <Text>
-            Tumbuhan dengan nama Lidah mertua, merupakan tumbuhan penangkal
-            radiasi yang cocok di tanam didalam rumah
-          </Text>
-          <Text note>Lihat semua komentar</Text>
-          <Text note style={styles.time}>
-            1 day ago
-          </Text>
-        </View>
-      </ScrollView>
+      <FlatList
+        style={styles.flatWrapper}
+        data={dataPost}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item, index}) => (
+          <CardPost
+            userPict={item.userActive.photo}
+            photoPost={item.picture}
+            userName={item.userActive.name}
+            caption={item.description}
+            createdAt={moment(item.createdAt, 'YYYYMMDD')
+              .startOf('hour')
+              .fromNow()}
+          />
+        )}
+      />
     </SafeAreaView>
   );
 };
@@ -87,40 +74,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 25,
   },
-  scrollView: {
+  flatWrapper: {
     marginBottom: 85,
   },
   like: {
     marginRight: 10,
-  },
-  avatarContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatar: {
-    height: 40,
-    width: 40,
-    borderRadius: 25,
-    margin: 10,
-  },
-  image: {
-    width: 'auto',
-    height: 275,
-  },
-  icon: {
-    flexDirection: 'row',
-    margin: 10,
-  },
-  desc: {
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
-  },
-  time: {
-    fontSize: 10,
-    marginTop: 5,
-  },
-  comment: {
-    marginLeft: 15,
   },
 });
