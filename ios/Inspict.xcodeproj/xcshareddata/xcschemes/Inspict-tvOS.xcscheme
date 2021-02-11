@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "InstaApp-tvOS.app"
-               BlueprintName = "InstaApp-tvOS"
-               ReferencedContainer = "container:InstaApp.xcodeproj">
+               BuildableName = "Inspict-tvOS.app"
+               BlueprintName = "Inspict-tvOS"
+               ReferencedContainer = "container:Inspict.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "InstaApp-tvOSTests.xctest"
-               BlueprintName = "InstaApp-tvOSTests"
-               ReferencedContainer = "container:InstaApp.xcodeproj">
+               BuildableName = "Inspict-tvOSTests.xctest"
+               BlueprintName = "Inspict-tvOSTests"
+               ReferencedContainer = "container:Inspict.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "InstaApp-tvOS.app"
-            BlueprintName = "InstaApp-tvOS"
-            ReferencedContainer = "container:InstaApp.xcodeproj">
+            BuildableName = "Inspict-tvOS.app"
+            BlueprintName = "Inspict-tvOS"
+            ReferencedContainer = "container:Inspict.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "InstaApp-tvOS.app"
-            BlueprintName = "InstaApp-tvOS"
-            ReferencedContainer = "container:InstaApp.xcodeproj">
+            BuildableName = "Inspict-tvOS.app"
+            BlueprintName = "Inspict-tvOS"
+            ReferencedContainer = "container:Inspict.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

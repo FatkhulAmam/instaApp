@@ -1,16 +1,20 @@
 import React from 'react';
 import Router from './routers';
 import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
 import SplashScreen from 'react-native-splash-screen';
-import Store from './redux/store';
+
+import store from './redux/store';
 
 const App = () => {
   React.useEffect(() => {
     SplashScreen.hide();
   });
   return (
-    <Provider store={Store}>
-      <Router />
+    <Provider store={store().store}>
+      <PersistGate loading={null} persistor={store().persistore}>
+        <Router />
+      </PersistGate>
     </Provider>
   );
 };

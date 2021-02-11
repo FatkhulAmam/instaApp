@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {
   StyleSheet,
   View,
@@ -7,10 +8,12 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {Text, Header, Form, Item, Label, Input, Button} from 'native-base';
 import * as yup from 'yup';
 import {Formik} from 'formik';
+import {loginAction} from '../redux/actions/auth';
 
 import logoFb from '../assets/images/fbLogo.png';
 
@@ -25,92 +28,109 @@ const schemaValidation = yup.object().shape({
     .required('Password dibutuhkan'),
 });
 
-const Login = ({navigation}) => {
-  return (
-    <SafeAreaView>
-      <ScrollView>
-        <View>
-          <Header style={styles.header} transparent>
-            <StatusBar barStyle="dark-content" backgroundColor="#f5f5f5" />
-            <Text>bahasa indonesia</Text>
-          </Header>
-        </View>
-        <View style={styles.container}>
-          <Text style={styles.title}>InstaApp</Text>
-          <TouchableOpacity style={styles.facebooWrap}>
-            <Image source={logoFb} style={styles.facebook} />
-            <Text style={styles.fbnext}>Lanjutkan dengan Facebook</Text>
-          </TouchableOpacity>
-          <Text note style={styles.atau}>
-            ATAU
-          </Text>
-          <Formik
-            initialValues={{
-              email: '',
-              password: '',
-            }}
-            validationSchema={schemaValidation}
-            onSubmit={(values) => this.dologin(values)}>
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              values,
-              touched,
-              errors,
-            }) => (
-              <View>
-                <Form style={styles.formWrap}>
-                  <Item floatingLabel>
-                    <Label>Email</Label>
-                    <Input
-                      onChangeText={handleChange('email')}
-                      onBlur={handleBlur('email')}
-                      value={values.email}
-                      keyboardType="email-address"
-                    />
-                  </Item>
-                  {touched.email && errors.email && (
-                    <Text style={styles.textError}>{errors.email}</Text>
-                  )}
-                  <Item floatingLabel>
-                    <Label>Password</Label>
-                    <Input
-                      secureTextEntry
-                      onChangeText={handleChange('password')}
-                      onBlur={handleBlur('password')}
-                      value={values.password}
-                    />
-                  </Item>
-                  {touched.password && errors.password && (
-                    <Text style={styles.textError}>{errors.password}</Text>
-                  )}
-                </Form>
-              </View>
-            )}
-          </Formik>
-          <TouchableOpacity>
-            <Text style={styles.forgot}>Lupa Kata Sandi??</Text>
-          </TouchableOpacity>
-          <Button
-            style={styles.btnLogin}
-            block
-            onPress={() => navigation.navigate('InstaApp')}>
-            <Text style={styles.btntext}>LOGIN</Text>
-          </Button>
-          <View style={styles.SignUp}>
-            <Text>Tidak Punya Akun? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-              <Text style={styles.daftarTxt}>Buat Akun</Text>
-            </TouchableOpacity>
+class Login extends React.Component {
+  doLogin = async (data) => {
+    await this.props.loginAction(data);
+    const {message, isError} = this.props.auth;
+    if (isError === false) {
+      Alert.alert(message);
+    } else {
+      Alert.alert(message);
+    }
+  };
+
+  render() {
+    return (
+      <SafeAreaView>
+        <ScrollView>
+          <View>
+            <Header style={styles.header} transparent>
+              <StatusBar barStyle="dark-content" backgroundColor="#f5f5f5" />
+              <Text>bahasa indonesia</Text>
+            </Header>
           </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+          <View style={styles.container}>
+            <Text style={styles.title}>Inspict</Text>
+            <TouchableOpacity style={styles.facebooWrap}>
+              <Image source={logoFb} style={styles.facebook} />
+              <Text style={styles.fbnext}>Lanjutkan dengan Facebook</Text>
+            </TouchableOpacity>
+            <Text note style={styles.atau}>
+              ATAU
+            </Text>
+            <Formik
+              initialValues={{
+                email: '',
+                password: '',
+              }}
+              validationSchema={schemaValidation}
+              onSubmit={(values) => this.doLogin(values)}>
+              {({
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+                touched,
+                errors,
+              }) => (
+                <View>
+                  <Form style={styles.formWrap}>
+                    <Item floatingLabel>
+                      <Label>Email</Label>
+                      <Input
+                        onChangeText={handleChange('email')}
+                        onBlur={handleBlur('email')}
+                        value={values.email}
+                        keyboardType="email-address"
+                      />
+                    </Item>
+                    {touched.email && errors.email && (
+                      <Text style={styles.textError}>{errors.email}</Text>
+                    )}
+                    <Item floatingLabel>
+                      <Label>Password</Label>
+                      <Input
+                        secureTextEntry
+                        onChangeText={handleChange('password')}
+                        onBlur={handleBlur('password')}
+                        value={values.password}
+                      />
+                    </Item>
+                    {touched.password && errors.password && (
+                      <Text style={styles.textError}>{errors.password}</Text>
+                    )}
+                  </Form>
+                  <TouchableOpacity>
+                    <Text style={styles.forgot}>Lupa Kata Sandi??</Text>
+                  </TouchableOpacity>
+                  <Button style={styles.btnLogin} block onPress={handleSubmit}>
+                    <Text style={styles.btntext}>LOGIN</Text>
+                  </Button>
+                  <View style={styles.SignUp}>
+                    <Text>Tidak Punya Akun? </Text>
+                    <TouchableOpacity
+                      onPress={() => this.props.navigation.navigate('SignIn')}>
+                      <Text style={styles.daftarTxt}>Buat Akun</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
+            </Formik>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
+}
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+const mapDispatchToProps = {
+  loginAction,
 };
 
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
   container: {
@@ -172,5 +192,6 @@ const styles = StyleSheet.create({
   },
   SignUp: {
     flexDirection: 'row',
+    justifyContent: 'center',
   },
 });
