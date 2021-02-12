@@ -38,7 +38,7 @@ const Home = ({navigation}) => {
             backgroundColor="rgba(0,0,0,0)"
           />
           <Body>
-            <Title style={styles.text}>InstaApp</Title>
+            <Title style={styles.text}>Inspict</Title>
           </Body>
           <Right>
             <Like style={styles.like} />
@@ -58,6 +58,7 @@ const Home = ({navigation}) => {
             createdAt={moment(item.createdAt, 'YYYYMMDD')
               .startOf('hour')
               .fromNow()}
+            commentPage={() => navigation.navigate('Comment')}
           />
         )}
       />

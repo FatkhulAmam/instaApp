@@ -13,6 +13,7 @@ import SignIn from '../screens/Signup';
 import Home from '../screens/Home';
 import Activities from '../screens/Activities';
 import Profile from '../screens/Profile';
+import Comment from '../screens/Comment';
 
 import BottomNavigation from '../components/bottomNavigation';
 
@@ -45,6 +46,11 @@ class Route extends Component {
           </Stack.Navigator>
         ) : (
           <Stack.Navigator>
+            <Stack.Screen
+              name="Comment"
+              component={Comment}
+              options={{headerShown: false}}
+            />
             <Stack.Screen
               name="InstaApp"
               component={MainApp}
