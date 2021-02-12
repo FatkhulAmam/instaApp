@@ -79,6 +79,7 @@ export default BottomNavigation;
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
     flexDirection: 'row',
     backgroundColor: '#FFFFFF',
     justifyContent: 'space-between',
@@ -92,9 +93,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  text: (isFocused) => ({
-    color: isFocused ? '#C10000' : '#C8C8C8',
-    fontSize: 13,
-    marginTop: 2,
-  }),
 });
