@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -6,12 +6,54 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
 import {Header, Body, Right, Title, Text, Input, Button} from 'native-base';
+import * as ImagePicker from 'react-native-image-picker';
 
 import profile from '../assets/images/avatar.png';
 
+const options = {
+  title: 'Select Picture',
+};
+
+const showToastImg = () => {
+  ToastAndroid.showWithGravity(
+    'Not an image (jpg/jpeg/png)',
+    ToastAndroid.LONG,
+    ToastAndroid.CENTER,
+  );
+};
+
 const EditPost = () => {
+  const [PostImage, setPostImage] = useState(profile);
+  const [dataImage, setDataImage] = React.useState('');
+
+  useEffect(() => {});
+
+  const takePicture = () => {
+    ImagePicker.launchImageLibrary(options, async (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        if (`${response.type}` === 'image/jpg' || 'image/jpeg' || 'image/png') {
+          setPostImage({uri: response.uri});
+          await setDataImage({
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+        } else {
+          showToastImg();
+        }
+      }
+    });
+  };
+
   return (
     <SafeAreaView>
       <View>
@@ -32,12 +74,12 @@ const EditPost = () => {
         </Header>
       </View>
       <View style={styles.wraperPost}>
-        <Image source={profile} style={styles.imgPost} />
+        <Image source={PostImage} style={styles.imgPost} />
         <Input style={styles.txtInput} placeholder="tambahkan pemikiranmu" />
       </View>
       <View style={styles.btnPost}>
-        <Button style={styles.btnInWraper}>
-          <Text>Post Other Picture</Text>
+        <Button style={styles.btnInWraper} onPress={takePicture}>
+          <Text>Post Picture</Text>
         </Button>
       </View>
     </SafeAreaView>
