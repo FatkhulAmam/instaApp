@@ -30,6 +30,30 @@ export default (state = initialState, action) => {
         data: action.payload.data,
       };
     }
+    //add postingan
+    case 'ADD_POST_PENDING': {
+      return {
+        ...state,
+        isLoading: true,
+        message: 'loading...',
+      };
+    }
+    case 'ADD_POST_REJECTED': {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        message: 'access denied',
+      };
+    }
+    case 'ADD_POST_FULFILLED': {
+      return {
+        ...state,
+        isLogin: true,
+        isLoading: false,
+        message: 'post successfully',
+      };
+    }
     case 'LOGOUT': {
       return {
         ...state,

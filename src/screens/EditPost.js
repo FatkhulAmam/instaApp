@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import {Header, Body, Right, Title, Text, Input, Button} from 'native-base';
 import * as ImagePicker from 'react-native-image-picker';
+import {useDispatch, useSelector} from 'react-redux';
+import {addPost} from '../redux/actions/posts';
 
 import profile from '../assets/images/avatar.png';
 
@@ -26,8 +28,11 @@ const showToastImg = () => {
 };
 
 const EditPost = () => {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
   const [PostImage, setPostImage] = useState(profile);
   const [dataImage, setDataImage] = React.useState('');
+  const [caption, setCaption] = useState();
 
   useEffect(() => {});
 
@@ -54,6 +59,13 @@ const EditPost = () => {
     });
   };
 
+  const doLogin = async () => {
+    const form = new FormData();
+    form.append('caption', caption);
+    form.append('pictures', dataImage);
+    await dispatch(addPost(token, form));
+  };
+
   return (
     <SafeAreaView>
       <View>
@@ -67,7 +79,7 @@ const EditPost = () => {
             <Title style={styles.text}>Inspict</Title>
           </Body>
           <Right>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={doLogin}>
               <Text>Posting</Text>
             </TouchableOpacity>
           </Right>
@@ -75,7 +87,13 @@ const EditPost = () => {
       </View>
       <View style={styles.wraperPost}>
         <Image source={PostImage} style={styles.imgPost} />
-        <Input style={styles.txtInput} placeholder="tambahkan pemikiranmu" />
+        <Input
+          style={styles.txtInput}
+          placeholder="tambahkan pemikiranmu"
+          onChangeText={() => {
+            setCaption;
+          }}
+        />
       </View>
       <View style={styles.btnPost}>
         <Button style={styles.btnInWraper} onPress={takePicture}>
