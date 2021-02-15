@@ -7,11 +7,14 @@ import {
   Image,
   TouchableOpacity,
   ToastAndroid,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import {Header, Body, Right, Title, Text, Input, Button} from 'native-base';
 import * as ImagePicker from 'react-native-image-picker';
 import {useDispatch, useSelector} from 'react-redux';
-import {addPost} from '../redux/actions/posts';
+import {addPost, getPost} from '../redux/actions/posts';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import profile from '../assets/images/avatar.png';
 
@@ -27,12 +30,13 @@ const showToastImg = () => {
   );
 };
 
-const EditPost = () => {
+const EditPost = ({navigation}) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
+  const addIndicator = useSelector((state) => state.post);
   const [PostImage, setPostImage] = useState(profile);
   const [dataImage, setDataImage] = React.useState('');
-  const [caption, setCaption] = useState();
+  const [caption, setCaption] = useState('');
 
   useEffect(() => {});
 
@@ -64,43 +68,60 @@ const EditPost = () => {
     form.append('caption', caption);
     form.append('pictures', dataImage);
     await dispatch(addPost(token, form));
+    if (addIndicator.isError === true) {
+      Alert.alert(addIndicator.message);
+    } else {
+      navigation.navigate('InstaApp');
+      Alert.alert(addIndicator.message);
+      dispatch(getPost(token));
+    }
   };
 
   return (
-    <SafeAreaView>
-      <View>
-        <Header style={styles.header} transparent>
-          <StatusBar
-            barStyle="dark-content"
-            translucent
-            backgroundColor="rgba(0,0,0,0)"
-          />
-          <Body>
-            <Title style={styles.text}>Inspict</Title>
-          </Body>
-          <Right>
-            <TouchableOpacity onPress={doLogin}>
-              <Text>Posting</Text>
-            </TouchableOpacity>
-          </Right>
-        </Header>
-      </View>
-      <View style={styles.wraperPost}>
-        <Image source={PostImage} style={styles.imgPost} />
-        <Input
-          style={styles.txtInput}
-          placeholder="tambahkan pemikiranmu"
-          onChangeText={() => {
-            setCaption;
-          }}
+    <>
+      {addIndicator.isLoading === false ? (
+        <SafeAreaView>
+          <View>
+            <Header style={styles.header} transparent>
+              <StatusBar
+                barStyle="dark-content"
+                translucent
+                backgroundColor="rgba(0,0,0,0)"
+              />
+              <Body>
+                <Title style={styles.text}>Inspict</Title>
+              </Body>
+              <Right>
+                <TouchableOpacity onPress={takePicture}>
+                  <Icon name="plus" size={25} />
+                </TouchableOpacity>
+              </Right>
+            </Header>
+          </View>
+          <View style={styles.wraperPost}>
+            <Image source={PostImage} style={styles.imgPost} />
+            <Input
+              style={styles.txtInput}
+              placeholder="tambahkan pemikiranmu"
+              value={caption}
+              onChangeText={(caption) => setCaption(caption)}
+            />
+          </View>
+          <View style={styles.btnPost}>
+            <Button block style={styles.btnInWraper} onPress={doLogin}>
+              <Text>Post Picture</Text>
+            </Button>
+          </View>
+        </SafeAreaView>
+      ) : (
+        <ActivityIndicator
+          size="large"
+          color="#000000"
+          animating={addIndicator.isLoading}
+          style={styles.parentsLoading}
         />
-      </View>
-      <View style={styles.btnPost}>
-        <Button style={styles.btnInWraper} onPress={takePicture}>
-          <Text>Post Picture</Text>
-        </Button>
-      </View>
-    </SafeAreaView>
+      )}
+    </>
   );
 };
 
@@ -127,10 +148,19 @@ const styles = StyleSheet.create({
   },
   btnPost: {
     justifyContent: 'center',
-    flexDirection: 'row',
+    flex: 1,
     paddingTop: 100,
+    paddingLeft: 10,
+    paddingRight: 10,
+    bottom: -250,
   },
   btnInWraper: {
-    borderRadius: 25,
+    borderRadius: 5,
+    width: '100%',
+  },
+  parentsLoading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

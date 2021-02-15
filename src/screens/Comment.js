@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -7,14 +7,33 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  ScrollView,
+  FlatList,
 } from 'react-native';
 import {Body, Header, Title, Card, Text} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import profile from '../assets/images/avatar.png';
+import {useSelector, useDispatch} from 'react-redux';
+import {getComment} from '../redux/actions/posts';
 
-const Comment = ({navigation}) => {
+class CardComment extends React.Component {
+  render() {
+    return (
+      <View style={styles.wrapper}>
+        <Image source={profile} style={styles.avatarCom} />
+        <Text>{this.props.commentText}</Text>
+      </View>
+    );
+  }
+}
+
+const Comment = ({route}) => {
+  const dispatch = useDispatch();
   const [messages, setMessages] = useState('');
+  const token = useSelector((state) => state.auth.token);
+  const dataComment = useSelector((state) => state.post.data1.results);
+  useEffect(() => {
+    dispatch(getComment(token, route.params));
+  }, [dispatch, token, route.params]);
   return (
     <SafeAreaView>
       <Header style={styles.header} transparent>
@@ -38,13 +57,14 @@ const Comment = ({navigation}) => {
         </Text>
       </View>
       <View style={styles.line} />
-      <View style={styles.wrapper}>
-        <Image source={profile} style={styles.avatarCom} />
-        <Text>
-          pada zaman kemerdikan nawang wulan budhal kaji nang prambanan kota
-          seribu candi pada zaman kemerdikan nawang wulan
-        </Text>
-      </View>
+      <FlatList
+        style={styles.flatWrapper}
+        data={dataComment}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item, index}) => (
+          <CardComment commentText={item.description} />
+        )}
+      />
       <Card style={styles.inputChat} transparent>
         <Body style={styles.write}>
           <TextInput
@@ -104,11 +124,11 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 50,
     width: '100%',
-    backgroundColor: '#ecccb4',
+    backgroundColor: '#ffffff',
     borderRadius: 25,
   },
   textInput: {
-    width: 230,
+    width: 270,
     height: 50,
     fontSize: 18,
     marginLeft: 8,

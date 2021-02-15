@@ -24,9 +24,6 @@ const Home = ({navigation}) => {
     dispatch(getPost(token));
   }, [dispatch, token]);
   const dataPost = useSelector((state) => state.post.data.result);
-  useEffect(() => {
-    console.log(dataPost);
-  }, [dataPost]);
 
   return (
     <SafeAreaView>
@@ -58,7 +55,7 @@ const Home = ({navigation}) => {
             createdAt={moment(item.createdAt, 'YYYYMMDD')
               .startOf('hour')
               .fromNow()}
-            commentPage={() => navigation.navigate('Comment')}
+            commentPage={() => navigation.navigate('Comment', item.id)}
           />
         )}
       />

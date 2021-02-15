@@ -6,7 +6,11 @@ const getPost = (token) => ({
 });
 const addPost = (token, data) => ({
   type: 'ADD_POST',
-  payload: http(token).get('post', data),
+  payload: http(token).post('post', data),
+});
+const getComment = (token, id) => ({
+  type: 'GET_COMMENT',
+  payload: http(token).get(`post/comment/${id}`),
 });
 
-export {getPost, addPost};
+export {getPost, addPost, getComment};

@@ -1,5 +1,6 @@
 const initialState = {
   data: [],
+  data1: [],
   isLoading: false,
   isError: false,
   isUpdated: false,
@@ -49,9 +50,32 @@ export default (state = initialState, action) => {
     case 'ADD_POST_FULFILLED': {
       return {
         ...state,
-        isLogin: true,
+        isError: true,
         isLoading: false,
         message: 'post successfully',
+      };
+    }
+    // get comment
+    case 'GET_COMMENT_PENDING': {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case 'GET_COMMENT_REJECTED': {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        message: 'There is an error at request data',
+      };
+    }
+    case 'GET_COMMENT_FULFILLED': {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data1: action.payload.data,
       };
     }
     case 'LOGOUT': {
